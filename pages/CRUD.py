@@ -155,11 +155,11 @@ if page == "Statistik Kemiskinan":
         col1.write(f"<p style='text-align: left;'>{item['nama_provinsi']}</p>", unsafe_allow_html=True)
         col2.write(f"<p style='text-align: left;'>{item['nama_kota']}</p>", unsafe_allow_html=True)
         col3.write(f"<p style='text-align: center;'>{item['tahun']}</p>", unsafe_allow_html=True)
-        col4.write(f"<p style='text-align: center;'>{item['kemiskinan']['persentase_penduduk_miskin']}</p>", unsafe_allow_html=True)
-        col5.write(f"<p style='text-align: center;'>{item['kemiskinan']['indeks_kedalaman_kemiskinan']}</p>", unsafe_allow_html=True)
-        col6.write(f"<p style='text-align: center;'>{item['kemiskinan']['indeks_keparahan_kemiskinan']}</p>", unsafe_allow_html=True)
-        col7.write(f"<p style='text-align: center;'>{item['kemiskinan']['garis_kemiskinan']}</p>", unsafe_allow_html=True)
-        col8.write(f"<p style='text-align: center;'>{item['kemiskinan']['pengeluaran_per_kapita']}</p>", unsafe_allow_html=True)
+        col4.write(f"<p style='text-align: center;'>{item['persentase_penduduk_miskin']}</p>", unsafe_allow_html=True)
+        col5.write(f"<p style='text-align: center;'>{item['indeks_kedalaman_kemiskinan']}</p>", unsafe_allow_html=True)
+        col6.write(f"<p style='text-align: center;'>{item['indeks_keparahan_kemiskinan']}</p>", unsafe_allow_html=True)
+        col7.write(f"<p style='text-align: center;'>{item['garis_kemiskinan']}</p>", unsafe_allow_html=True)
+        col8.write(f"<p style='text-align: center;'>{item['pengeluaran_per_kapita']}</p>", unsafe_allow_html=True)
 
         update_btn = col9.button("Update", key=f"update_{item['_id']}_{item['nama_kota']}")
         delete_btn = col10.button("Delete", icon="❌", key=f"delete_{item['_id']}_{item['nama_kota']}")
@@ -194,15 +194,15 @@ if page == "Statistik Kemiskinan":
                 with col3:
                     tahun = st.number_input("Tahun", value=item['tahun'])
                 with col4:
-                    new_ppm = st.number_input("Persentase Penduduk Miskin", value=item['kemiskinan']['persentase_penduduk_miskin'])
+                    new_ppm = st.number_input("Persentase Penduduk Miskin", value=item['persentase_penduduk_miskin'])
                 with col5:
-                    new_ikk = st.number_input("Indeks Kedalaman Kemiskinan", value=item['kemiskinan']['indeks_kedalaman_kemiskinan'])
+                    new_ikk = st.number_input("Indeks Kedalaman Kemiskinan", value=item['indeks_kedalaman_kemiskinan'])
                 with col6:
-                    new_ipk = st.number_input("Indeks Keparahan Kemiskinan", value=item['kemiskinan']['indeks_keparahan_kemiskinan'])
+                    new_ipk = st.number_input("Indeks Keparahan Kemiskinan", value=item['indeks_keparahan_kemiskinan'])
                 with col7:
-                    new_gk = st.number_input("Garis Kemiskinan", value=item['kemiskinan']['garis_kemiskinan'])
+                    new_gk = st.number_input("Garis Kemiskinan", value=item['garis_kemiskinan'])
                 with col8:
-                    new_ppk = st.number_input("Pengeluaran per Kapita", value=item['kemiskinan']['pengeluaran_per_kapita'])
+                    new_ppk = st.number_input("Pengeluaran per Kapita", value=item['pengeluaran_per_kapita'])
 
                 submitted_update = st.form_submit_button("Update Data")
                 

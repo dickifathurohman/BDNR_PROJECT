@@ -57,6 +57,10 @@ def flatten_data(data):
                 "tahun": item["tahun"],
                 "nama_provinsi": item["nama_provinsi"],
                 "nama_kota": kota["nama_kota"],
-                "kemiskinan": kota["kemiskinan"]
+                "garis_kemiskinan": kota["kemiskinan"]["garis_kemiskinan"],
+                "indeks_kedalaman_kemiskinan": kota["kemiskinan"]["indeks_kedalaman_kemiskinan"],
+                "indeks_keparahan_kemiskinan": kota["kemiskinan"]["indeks_keparahan_kemiskinan"],
+                "persentase_penduduk_miskin": kota["kemiskinan"]["persentase_penduduk_miskin"],
+                "pengeluaran_per_kapita": kota["kemiskinan"]["pengeluaran_per_kapita"],
             })
     return flattened_data
