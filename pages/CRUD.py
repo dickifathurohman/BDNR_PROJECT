@@ -5,22 +5,6 @@ from connect import *
 import time
 from helper_functions import dataHandler, crud
 
-def flatten_data(data):
-    """
-    Jabarkan data kota dari setiap provinsi dan tahun ke dalam daftar datar.
-    """
-    flattened_data = []
-    for item in data:
-        for kota in item['data_kota']:
-            flattened_data.append({
-                "_id"  : item["_id"],
-                "tahun": item["tahun"],
-                "nama_provinsi": item["nama_provinsi"],
-                "nama_kota": kota["nama_kota"],
-                "kemiskinan": kota["kemiskinan"]
-            })
-    return flattened_data
-
 # Manage pagination
 def get_paginated_data(data, page_num, page_size):
     start = page_num * page_size
@@ -141,7 +125,7 @@ if page == "Statistik Kemiskinan":
     if "page_num" not in st.session_state:
         st.session_state.page_num = 0
 
-    flattened_data = flatten_data(filtered_data)  # Filtered data berdasarkan provinsi/kota yang dipilih
+    flattened_data = dataHandler.flatten_data(filtered_data)  # Filtered data berdasarkan provinsi/kota yang dipilih
     total_items = len(flattened_data)
     paginated_data = get_paginated_data(flattened_data, st.session_state.page_num, page_size)
 
