@@ -46,7 +46,7 @@ data_dict = {
         "tahun": tahun,
         "data_kota": [],
         "bansos": {},
-        "pengangguran": {}
+        "tingkat_pengangguran": 0.0
     }
     for provinsi, tahun in provinsi_tahun
 }
@@ -97,9 +97,7 @@ for row in dataset_pengangguran:
 
     # Pastikan data pengangguran tidak redundant
     if key in data_dict:
-        data_dict[key]["pengangguran"] = {
-            "tingkat_pengangguran": safe_float(row["Tingkat Pengangguran"])
-        }
+        data_dict[key]["tingkat_pengangguran"] = safe_float(row["Tingkat Pengangguran"])
 
 # Konversi ke list dokumen
 documents = list(data_dict.values())

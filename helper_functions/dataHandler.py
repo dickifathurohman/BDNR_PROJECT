@@ -13,28 +13,29 @@ def load_data():
 # Sidebar filter untuk provinsi, kota, dan tahun
 
 
-def sidebar_filters(data):
+def sidebar_filters(data, page):
     st.sidebar.title("Filter")
 
     # Filter provinsi
     provinsi_selected = st.sidebar.selectbox(
         "Pilih Provinsi",
-        options=["Semua"] + list(set(item['nama_provinsi'] for item in data))
+        options=["Semua"] + sorted(list(set(item['nama_provinsi'] for item in data)))
     )
 
-    # Filter kota
-    if provinsi_selected == "Semua":
-        kota_options = ["Semua"] + list(
-            set(kota['nama_kota']
-                for item in data for kota in item['data_kota'])
-        )
-    else:
-        kota_options = ["Semua"] + list(
-            set(kota['nama_kota'] for item in data if item['nama_provinsi']
-                == provinsi_selected for kota in item['data_kota'])
-        )
+    if page == "Statistik Kemiskinan":
+        # Filter kota
+        if provinsi_selected == "Semua":
+            kota_options = ["Semua"] + sorted(list(
+                set(kota['nama_kota']
+                    for item in data for kota in item['data_kota'])
+            ))
+        else:
+            kota_options = ["Semua"] + sorted(list(
+                set(kota['nama_kota'] for item in data if item['nama_provinsi']
+                    == provinsi_selected for kota in item['data_kota'])
+            ))
 
-    kota_selected = st.sidebar.selectbox("Pilih Kota", options=kota_options)
+        kota_selected = st.sidebar.selectbox("Pilih Kota", options=kota_options)
 
     # Filter tahun
     tahun_min, tahun_max = st.sidebar.slider(
@@ -50,8 +51,10 @@ def sidebar_filters(data):
         item for item in data if item['tahun'] >= tahun_min and item['tahun'] <= tahun_max
     ]
 
-    return filtered_data, provinsi_selected, kota_selected
-
+    if page == "Statistik Kemiskinan":
+        return filtered_data, provinsi_selected, kota_selected
+    else:
+        return filtered_data, provinsi_selected
 
 def flatten_data(data, flatten_style='kemiskinan'):
     """
@@ -75,5 +78,13 @@ def flatten_data(data, flatten_style='kemiskinan'):
                 "tahun": item["tahun"],
                 "nama_provinsi": item["nama_provinsi"],
                 "bansos": item["bansos"],
+            })
+    elif flatten_style == 'tingkat_pengangguran':
+        for item in data:
+            flattened_data.append({
+                "_id": item["_id"],
+                "tahun": item["tahun"],
+                "nama_provinsi": item["nama_provinsi"],
+                "tingkat_pengangguran": item["tingkat_pengangguran"],
             })
     return flattened_data

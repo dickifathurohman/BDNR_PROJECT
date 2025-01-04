@@ -12,4 +12,4 @@ st.title("Dashboard Visualizations")
 data = dataHandler.load_data()
 
 
-filtered_data, provinsi_selected, kota_selected = dataHandler.sidebar_filters(data)
+filtered_data, provinsi_selected, kota_selected = dataHandler.sidebar_filters(data, page = "Statistik Kemiskinan")
