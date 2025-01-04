@@ -210,3 +210,25 @@ def update_kemiskinan(_id, nama_kota, updated_values):
         st.success("Data berhasil diperbarui!")
     else:
         st.error("Gagal memperbarui data. Periksa kembali ID dan Nama Kota.")
+
+
+def update_bansos(_id, updated_values):
+
+    # Query untuk mencocokkan dokumen dengan _id
+    filter_query = {
+        "_id": _id,
+    }
+
+    # Perintah update dengan $set
+    update_query = {
+        "$set": {f"bansos.{key}": value for key, value in updated_values.items()}
+    }
+
+    # Lakukan pembaruan
+    result = collection.update_one(filter_query, update_query)
+
+    # Cek hasil pembaruan
+    if result.modified_count > 0:
+        st.success("Data berhasil diperbarui!")
+    else:
+        st.error("Gagal memperbarui data. Periksa kembali ID dan Nama Kota.")

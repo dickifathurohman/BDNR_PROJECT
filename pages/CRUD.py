@@ -299,7 +299,7 @@ elif page == "Bantuan Sosial Pangan":
         filtered_data = [
             item for item in filtered_data if item['nama_provinsi'] == provinsi_selected]
 
-    st.subheader("Tambah Data Statistik Kemiskinan")
+    st.subheader("Tambah Data Statistik Bantuan Sosial Pangan")
 
     # Inisialisasi session_state untuk provinsi dan kota
     if "selected_provinsi" not in st.session_state:
@@ -360,7 +360,7 @@ elif page == "Bantuan Sosial Pangan":
         flattened_data, st.session_state.page_num, page_size)
 
     # Menampilkan Data
-    st.subheader("Tabel Data Statistik Kemiskinan")
+    st.subheader("Tabel Data Bantuan Sosial Pangan")
 
     # Judul Kolom
     col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(
@@ -427,47 +427,39 @@ elif page == "Bantuan Sosial Pangan":
         if st.session_state.active_form_id == {"_id": item["_id"], "nama_provinsi": item["nama_provinsi"]}:
             with st.form(f"update_form_{item['_id']}_{item['nama_provinsi']}"):
 
-                col1, col2 = st.columns(2)
-                col3, col4 = st.columns(2)
-                col5, col6 = st.columns(2)
-                col7, col8 = st.columns(2)
+                col1, col3 = st.columns(2)
+                col4, col5 = st.columns(2)
+                col6, col7 = st.columns(2)
 
                 with col1:
                     prov = st.selectbox("Provinsi", options=[
                                         item['nama_provinsi']], disabled=True)
-                with col2:
-                    kota = st.selectbox(
-                        "Kota", options=[item['nama_provinsi']], disabled=True)
                 with col3:
                     tahun = st.number_input("Tahun", value=item['tahun'])
                 with col4:
                     new_ppm = st.number_input(
-                        "Persentase Penduduk Miskin", value=item['kemiskinan']['persentase_penduduk_miskin'])
+                        "Rencana Jumlah Keluarga Penerima BANSOS", value=item['bansos']['rencana_keluarga_penerima'])
                 with col5:
                     new_ikk = st.number_input(
-                        "Indeks Kedalaman Kemiskinan", value=item['kemiskinan']['indeks_kedalaman_kemiskinan'])
+                        "Realisasi Jumlah Keluarga Penerima BANSOS", value=item['bansos']['realisasi_keluarga_penerima'])
                 with col6:
                     new_ipk = st.number_input(
-                        "Indeks Keparahan Kemiskinan", value=item['kemiskinan']['indeks_keparahan_kemiskinan'])
+                        "Rencana Anggaran BANSOS", value=item['bansos']['rencana_anggaran'])
                 with col7:
                     new_gk = st.number_input(
-                        "Garis Kemiskinan", value=item['kemiskinan']['garis_kemiskinan'])
-                with col8:
-                    new_ppk = st.number_input(
-                        "Pengeluaran per Kapita", value=item['kemiskinan']['pengeluaran_per_kapita'])
+                        "Realisasi Anggaran BANSOS", value=item['bansos']['realisasi_anggaran'])
 
                 submitted_update = st.form_submit_button("Update Data")
 
                 if submitted_update:
                     updated_data = {
-                        "persentase_penduduk_miskin": new_ppm,
-                        "indeks_kedalaman_kemiskinan": new_ikk,
-                        "indeks_keparahan_kemiskinan": new_ipk,
-                        "garis_kemiskinan": new_gk,
-                        "pengeluaran_per_kapita": new_ppk
+                        "rencana_keluarga_penerima": new_ppm,
+                        "realisasi_keluarga_penerima": new_ikk,
+                        "rencana_anggaran": new_ipk,
+                        "realisasi_anggaran": new_gk,
                     }
-                    crud.update_kemiskinan(
-                        item["_id"], item["nama_provinsi"], updated_data)
+                    crud.update_bansos(
+                        item["_id"], updated_data)
                     time.sleep(3)
                     st.session_state.data = dataHandler.load_data()  # Refresh data setelah delete
                     st.session_state.active_form_id = None
