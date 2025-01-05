@@ -53,3 +53,5 @@ with col2:
         else:
             st.subheader(f"Trend Persentase Penduduk Miskin {provinsi_selected}")
             visualize.line_chart(kemiskinan_df, "tahun", "persentase_penduduk_miskin", "Tahun", "Persentase Penduduk Miskin", "nama_kota", kota_selected)
+
+filtered_data, provinsi_selected, kota_selected = dataHandler.sidebar_filters(data, page = "Statistik Kemiskinan")
