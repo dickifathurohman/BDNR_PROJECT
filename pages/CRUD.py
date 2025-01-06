@@ -36,11 +36,6 @@ if page == "Statistik Kemiskinan":
         item for item in filtered_data if 'data_kota' in item and len(item['data_kota']) > 0
     ]
 
-    # Ambil data berdasarkan provinsi dan kota yang dipilih
-    if provinsi_selected != "Semua":
-        filtered_data = [
-            item for item in filtered_data if item['nama_provinsi'] == provinsi_selected]
-
     if kota_selected != "Semua":
         filtered_data = [
             {
@@ -183,27 +178,6 @@ if page == "Statistik Kemiskinan":
         col7.write(f"<p style='text-align: center;'>{item['garis_kemiskinan']}</p>", unsafe_allow_html=True)
         col8.write(f"<p style='text-align: center;'>{item['pengeluaran_per_kapita']}</p>", unsafe_allow_html=True)
 
-        # for kota in item['data_kota']:
-        col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns(
-            10)
-
-        col1.write(
-            f"<p style='text-align: left;'>{item['nama_provinsi']}</p>", unsafe_allow_html=True)
-        col2.write(
-            f"<p style='text-align: left;'>{item['nama_kota']}</p>", unsafe_allow_html=True)
-        col3.write(
-            f"<p style='text-align: center;'>{item['tahun']}</p>", unsafe_allow_html=True)
-        col4.write(
-            f"<p style='text-align: center;'>{item['kemiskinan']['persentase_penduduk_miskin']}</p>", unsafe_allow_html=True)
-        col5.write(
-            f"<p style='text-align: center;'>{item['kemiskinan']['indeks_kedalaman_kemiskinan']}</p>", unsafe_allow_html=True)
-        col6.write(
-            f"<p style='text-align: center;'>{item['kemiskinan']['indeks_keparahan_kemiskinan']}</p>", unsafe_allow_html=True)
-        col7.write(
-            f"<p style='text-align: center;'>{item['kemiskinan']['garis_kemiskinan']}</p>", unsafe_allow_html=True)
-        col8.write(
-            f"<p style='text-align: center;'>{item['kemiskinan']['pengeluaran_per_kapita']}</p>", unsafe_allow_html=True)
-
         update_btn = col9.button(
             "Update", key=f"update_{item['_id']}_{item['nama_kota']}")
         delete_btn = col10.button(
@@ -300,11 +274,6 @@ elif page == "Bantuan Sosial Pangan":
         item for item in filtered_data if 'bansos' in item and bool(item['bansos'])
     ]
 
-    # Ambil data berdasarkan provinsi dan kota yang dipilih
-    if provinsi_selected != "Semua":
-        filtered_data = [
-            item for item in filtered_data if item['nama_provinsi'] == provinsi_selected]
-
     st.subheader("Tambah Data Statistik Bantuan Sosial Pangan")
 
     # Inisialisasi session_state untuk provinsi dan kota
@@ -400,13 +369,13 @@ elif page == "Bantuan Sosial Pangan":
         col2.write(
             f"<p style='text-align: left;'>{item['tahun']}</p>", unsafe_allow_html=True)
         col3.write(
-            f"<p style='text-align: center;'>{item['bansos']['rencana_keluarga_penerima']}</p>", unsafe_allow_html=True)
+            f"<p style='text-align: center;'>{item['rencana_keluarga_penerima']}</p>", unsafe_allow_html=True)
         col4.write(
-            f"<p style='text-align: center;'>{item['bansos']['realisasi_keluarga_penerima']}</p>", unsafe_allow_html=True)
+            f"<p style='text-align: center;'>{item['realisasi_keluarga_penerima']}</p>", unsafe_allow_html=True)
         col5.write(
-            f"<p style='text-align: center;'>{item['bansos']['rencana_anggaran']}</p>", unsafe_allow_html=True)
+            f"<p style='text-align: center;'>{item['rencana_anggaran']}</p>", unsafe_allow_html=True)
         col6.write(
-            f"<p style='text-align: center;'>{item['bansos']['realisasi_anggaran']}</p>", unsafe_allow_html=True)
+            f"<p style='text-align: center;'>{item['realisasi_anggaran']}</p>", unsafe_allow_html=True)
 
         update_btn = col7.button(
             "Update", key=f"update_{item['_id']}")
@@ -443,16 +412,16 @@ elif page == "Bantuan Sosial Pangan":
                     tahun = st.number_input("Tahun", value=item['tahun'])
                 with col4:
                     new_ppm = st.number_input(
-                        "Rencana Jumlah Keluarga Penerima BANSOS", value=item['bansos']['rencana_keluarga_penerima'])
+                        "Rencana Jumlah Keluarga Penerima BANSOS", value=item['rencana_keluarga_penerima'])
                 with col5:
                     new_ikk = st.number_input(
-                        "Realisasi Jumlah Keluarga Penerima BANSOS", value=item['bansos']['realisasi_keluarga_penerima'])
+                        "Realisasi Jumlah Keluarga Penerima BANSOS", value=item['realisasi_keluarga_penerima'])
                 with col6:
                     new_ipk = st.number_input(
-                        "Rencana Anggaran BANSOS", value=item['bansos']['rencana_anggaran'])
+                        "Rencana Anggaran BANSOS", value=item['rencana_anggaran'])
                 with col7:
                     new_gk = st.number_input(
-                        "Realisasi Anggaran BANSOS", value=item['bansos']['realisasi_anggaran'])
+                        "Realisasi Anggaran BANSOS", value=item['realisasi_anggaran'])
 
                 submitted_update = st.form_submit_button("Update Data")
 
@@ -500,11 +469,6 @@ elif page == "Tingkat Pengangguran":
     filtered_data = [
         item for item in filtered_data if 'tingkat_pengangguran' in item and bool(item['tingkat_pengangguran'])
     ]
-
-    # Ambil data berdasarkan provinsi dan kota yang dipilih
-    if provinsi_selected != "Semua":
-        filtered_data = [
-            item for item in filtered_data if item['nama_provinsi'] == provinsi_selected]
 
     st.subheader("Tambah Data Statistik Tingkat Pengangguran")
 

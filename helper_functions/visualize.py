@@ -29,3 +29,36 @@ def line_chart(data, x_value, y_value, x_title, y_title, filter_value, selected_
         tooltip=[x_value, y_value]
     ).properties(width=400, height=400)
     st.altair_chart(line_chart, use_container_width=True)
+
+def dual_bar_chart(data, x_value, value1, value2, value_name):
+
+    aggregated_data = data.groupby([x_value], as_index=False).agg(
+        {value1: 'sum', value2: 'sum'}  # Bisa diganti 'mean' jika ingin rata-rata
+    )
+
+    chart_data = aggregated_data.melt(
+        id_vars=[x_value],
+        value_vars=[value1, value2],
+        var_name="Kategori",
+        value_name=value_name,
+        )
+
+    st.bar_chart(chart_data, x=x_value, y=value_name, color="Kategori", stack=False)
+
+
+def dual_line_chart(data, x_value, value1, value2, value_name):
+
+    aggregated_data = data.groupby([x_value], as_index=False).agg(
+        {value1: 'sum', value2: 'sum'}  # Bisa diganti 'mean' jika ingin rata-rata
+    )
+
+    aggregated_data[x_value] = aggregated_data[x_value].astype(int)
+
+    chart_data = aggregated_data.melt(
+        id_vars=[x_value],
+        value_vars=[value1, value2],
+        var_name="Kategori",
+        value_name=value_name,
+        )
+
+    st.line_chart(chart_data, x=x_value, y=value_name, color="Kategori")

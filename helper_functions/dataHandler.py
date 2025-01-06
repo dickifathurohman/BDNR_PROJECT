@@ -51,6 +51,11 @@ def sidebar_filters(data, page):
         item for item in data if item['tahun'] >= tahun_min and item['tahun'] <= tahun_max
     ]
 
+    if provinsi_selected != "Semua":
+        filtered_data = [
+            item for item in filtered_data if item['nama_provinsi'] == provinsi_selected
+        ]
+
     if page == "Statistik Kemiskinan":
         return filtered_data, provinsi_selected, kota_selected
     else:
@@ -70,6 +75,11 @@ def flatten_data(data, flatten_style='kemiskinan'):
                     "nama_provinsi": item["nama_provinsi"],
                     "nama_kota": kota["nama_kota"],
                     "kemiskinan": kota["kemiskinan"],
+                    "garis_kemiskinan": kota["kemiskinan"]["garis_kemiskinan"],
+                    "indeks_kedalaman_kemiskinan": kota["kemiskinan"]["indeks_kedalaman_kemiskinan"],
+                    "indeks_keparahan_kemiskinan": kota["kemiskinan"]["indeks_keparahan_kemiskinan"],
+                    "persentase_penduduk_miskin": kota["kemiskinan"]["persentase_penduduk_miskin"],
+                    "pengeluaran_per_kapita": kota["kemiskinan"]["pengeluaran_per_kapita"],
                 })
     elif flatten_style == 'bansos':
         for item in data:
@@ -77,13 +87,10 @@ def flatten_data(data, flatten_style='kemiskinan'):
                 "_id": item["_id"],
                 "tahun": item["tahun"],
                 "nama_provinsi": item["nama_provinsi"],
-                "nama_kota": kota["nama_kota"],
-                "garis_kemiskinan": kota["kemiskinan"]["garis_kemiskinan"],
-                "indeks_kedalaman_kemiskinan": kota["kemiskinan"]["indeks_kedalaman_kemiskinan"],
-                "indeks_keparahan_kemiskinan": kota["kemiskinan"]["indeks_keparahan_kemiskinan"],
-                "persentase_penduduk_miskin": kota["kemiskinan"]["persentase_penduduk_miskin"],
-                "pengeluaran_per_kapita": kota["kemiskinan"]["pengeluaran_per_kapita"],
-                "bansos": item["bansos"],
+                "rencana_keluarga_penerima": item["bansos"]["rencana_keluarga_penerima"],
+                "realisasi_keluarga_penerima": item["bansos"]["realisasi_keluarga_penerima"],
+                "rencana_anggaran": item["bansos"]["rencana_anggaran"],
+                "realisasi_anggaran": item["bansos"]["realisasi_anggaran"],
             })
     elif flatten_style == 'tingkat_pengangguran':
         for item in data:
