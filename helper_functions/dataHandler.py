@@ -47,17 +47,20 @@ def sidebar_filters(data, page):
     )
 
     # Filter data berdasarkan provinsi, kota, dan tahun
-    filtered_data = [
+    filtered_data_only_year = [
         item for item in data if item['tahun'] >= tahun_min and item['tahun'] <= tahun_max
     ]
 
     if provinsi_selected != "Semua":
         filtered_data = [
-            item for item in filtered_data if item['nama_provinsi'] == provinsi_selected
+            item for item in filtered_data_only_year if item['nama_provinsi'] == provinsi_selected
         ]
+    else:
+        filtered_data = filtered_data_only_year
 
     if page == "Statistik Kemiskinan":
-        return filtered_data, provinsi_selected, kota_selected
+        # "filtered_data_only_year" untuk full_data di page Dashboard
+        return filtered_data, provinsi_selected, kota_selected, filtered_data_only_year
     else:
         return filtered_data, provinsi_selected
 
@@ -100,4 +103,13 @@ def flatten_data(data, flatten_style='kemiskinan'):
                 "nama_provinsi": item["nama_provinsi"],
                 "tingkat_pengangguran": item["tingkat_pengangguran"],
             })
+
     return flattened_data
+
+def title_case(text):
+    exceptions = {"DKI", "DI"}
+
+    return " ".join(
+        word if word in exceptions else word.title()
+        for word in text.split()
+    )

@@ -29,7 +29,7 @@ if page == "Statistik Kemiskinan":
     st.header("Data Statistik Kemiskinan")
 
     # get data
-    filtered_data, provinsi_selected, kota_selected = dataHandler.sidebar_filters(
+    filtered_data, provinsi_selected, kota_selected, X = dataHandler.sidebar_filters(
         data, page)
 
     filtered_data = [
@@ -169,7 +169,7 @@ if page == "Statistik Kemiskinan":
         #for kota in item['data_kota']:
         col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns(10)
         
-        col1.write(f"<p style='text-align: left;'>{item['nama_provinsi']}</p>", unsafe_allow_html=True)
+        col1.write(f"<p style='text-align: left;'>{dataHandler.title_case(item['nama_provinsi'])}</p>", unsafe_allow_html=True)
         col2.write(f"<p style='text-align: left;'>{item['nama_kota']}</p>", unsafe_allow_html=True)
         col3.write(f"<p style='text-align: center;'>{item['tahun']}</p>", unsafe_allow_html=True)
         col4.write(f"<p style='text-align: center;'>{item['persentase_penduduk_miskin']}</p>", unsafe_allow_html=True)
@@ -365,7 +365,7 @@ elif page == "Bantuan Sosial Pangan":
             8)
         
         col1.write(
-            f"<p style='text-align: left;'>{item['nama_provinsi']}</p>", unsafe_allow_html=True)
+            f"<p style='text-align: left;'>{dataHandler.title_case(item['nama_provinsi'])}</p>", unsafe_allow_html=True)
         col2.write(
             f"<p style='text-align: left;'>{item['tahun']}</p>", unsafe_allow_html=True)
         col3.write(
@@ -542,7 +542,7 @@ elif page == "Tingkat Pengangguran":
         col1, col2, col3, col4, col5 = st.columns(5)
         
         col1.write(
-            f"<p style='text-align: left;'>{item['nama_provinsi']}</p>", unsafe_allow_html=True)
+            f"<p style='text-align: left;'>{dataHandler.title_case(item['nama_provinsi'])}</p>", unsafe_allow_html=True)
         col2.write(
             f"<p style='text-align: left;'>{item['tahun']}</p>", unsafe_allow_html=True)
         col3.write(
