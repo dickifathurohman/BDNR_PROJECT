@@ -101,7 +101,7 @@ def dual_bar_chart(data, x_value, value1, value2, value_name):
     # Membuat bar chart dengan Altair    
     dual_bar_chart = alt.Chart(chart_data).mark_bar().encode(    
         x=alt.X(f'{x_value}:N', sort=None, title='Nama Provinsi'),    
-        y=alt.Y(f'{value_name}:Q', title='Jumlah Anggaran'),    
+        y=alt.Y(f'{value_name}:Q', title=value_name),    
         color=alt.Color('Kategori:N', legend=alt.Legend(title='Kategori', orient='bottom')),
         # Menggunakan xOffset untuk memisahkan bar    
         xOffset=alt.X('Kategori:N', title=None)    
@@ -141,7 +141,7 @@ def dual_line_chart(data, x_value, value1, value2, value_name):
     st.altair_chart(dual_line_chart, use_container_width=True)
 
 def choropleth_chart(data, x_value, y_value, x_title, y_title):
-    # Aggregating data berdsarakan provinsi
+    # Aggregating data berdasarakan provinsi
     data_aggregated = data.groupby(x_value)[y_value].mean().reset_index()
 
     # Menyesuaikan dengan data GeoJSON

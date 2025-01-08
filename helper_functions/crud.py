@@ -2,12 +2,12 @@ import streamlit as st
 import pandas as pd
 from connect import *
 
-
+# Fungsi untuk menambahkan data kemiskinan
 def add_kemiskinan(tahun, provinsi, kota, ppm, ikk, ipk, gk, ppk):
 
     data_id = f"{provinsi}_{tahun}"
 
-    # Cek apakah data untuk provinsi, kota, dan tahun sudah ada
+    # Cek apakah data kota untuk provinsi dan tahun yg dipilih sudah ada
     existing_data = collection.find_one({
         "_id": data_id,
         "data_kota.nama_kota": kota
@@ -158,9 +158,8 @@ def add_ting_peng(tahun, provinsi, ting_peng):
 
         st.success("Data berhasil ditambahkan!")
 
+
 # Fungsi untuk menghapus data kota
-
-
 def delete_kemiskinan(data_id, kota):
     # Cek apakah data untuk provinsi, kota, dan tahun ada
     existing_data = collection.find_one({
@@ -267,8 +266,6 @@ def delete_ting_peng(data_id, provinsi):
         st.success(f"Data berhasil dihapus!")
 
 # Fungsi untuk mengupdate data kemiskinan berdasarkan _id dan nama kota
-
-
 def update_kemiskinan(_id, nama_kota, updated_values):
 
     # Query untuk mencocokkan dokumen dengan _id dan nama_kota

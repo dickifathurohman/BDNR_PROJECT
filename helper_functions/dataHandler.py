@@ -3,16 +3,12 @@ import pandas as pd
 from connect import *
 
 # Fungsi untuk memuat data dari MongoDB
-
-
 def load_data():
     cursor = collection.find().sort([("nama_provinsi", 1), ("tahun", 1)])
     data = list(cursor)
     return data
 
 # Sidebar filter untuk provinsi, kota, dan tahun
-
-
 def sidebar_filters(data, page):
     st.sidebar.title("Filter")
 
@@ -60,14 +56,13 @@ def sidebar_filters(data, page):
 
     if page == "Statistik Kemiskinan":
         # "filtered_data_only_year" untuk full_data di page Dashboard
-        return filtered_data, provinsi_selected, kota_selected, filtered_data_only_year
+        return filtered_data, provinsi_selected, kota_selected, filtered_data_only_year, tahun_min, tahun_max
     else:
         return filtered_data, provinsi_selected
 
+# Fungsi untuk menjabarkan data dalam daftar datar
 def flatten_data(data, flatten_style='kemiskinan'):
-    """
-    Jabarkan data kota dari setiap provinsi dan tahun ke dalam daftar datar.
-    """
+    
     flattened_data = []
     if flatten_style == 'kemiskinan':
         for item in data:

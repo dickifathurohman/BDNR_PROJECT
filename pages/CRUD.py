@@ -5,9 +5,7 @@ from connect import *
 import time
 from helper_functions import dataHandler, crud
 
-# Manage pagination
-
-
+# Untuk mengelola jumlah data per halaman
 def get_paginated_data(data, page_num, page_size):
     start = page_num * page_size
     end = start + page_size
@@ -29,7 +27,7 @@ if page == "Statistik Kemiskinan":
     st.header("Data Statistik Kemiskinan")
 
     # get data
-    filtered_data, provinsi_selected, kota_selected, X = dataHandler.sidebar_filters(
+    filtered_data, provinsi_selected, kota_selected, X, _, _ = dataHandler.sidebar_filters(
         data, page)
 
     filtered_data = [
@@ -59,7 +57,7 @@ if page == "Statistik Kemiskinan":
     col1, col2 = st.columns(2)
 
     with col1:
-        # Pilihan Provinsi (di luar form untuk mendukung interaktivitas)
+        # Pilihan Provinsi
         provinsi_options = ["Pilih Provinsi"] + sorted(list(set(item["nama_provinsi"] for item in data)))
         provinsi = st.selectbox(
             "Pilih Provinsi",
@@ -68,7 +66,7 @@ if page == "Statistik Kemiskinan":
         )
     with col2:
 
-        # Pilihan Kota (di luar form, akan muncul jika provinsi dipilih)
+        # Pilihan Kota
         if st.session_state.selected_provinsi and st.session_state.selected_provinsi != "Pilih Provinsi":
             kota_options = sorted(list(
                 set(
@@ -84,7 +82,7 @@ if page == "Statistik Kemiskinan":
                 key="selected_kota",
             )
         else:
-            # Jika provinsi belum dipilih, munculkan dropdown kota dalam keadaan disabled
+            # Jika provinsi belum dipilih dropdown kota dalam keadaan disabled
             kota = st.selectbox(
                 "Pilih Kota",
                 options=["Silakan pilih provinsi terlebih dahulu"],
@@ -125,7 +123,7 @@ if page == "Statistik Kemiskinan":
                 st.write("Harap pilih provinsi dan kota terlebih dahulu.")
 
     # Limit Data
-    page_size = 15  # Show 15 records per page
+    page_size = 15
     if "page_num" not in st.session_state:
         st.session_state.page_num = 0
 
@@ -166,7 +164,6 @@ if page == "Statistik Kemiskinan":
     # Data Kolom
     for item in paginated_data:
         
-        #for kota in item['data_kota']:
         col1, col2, col3, col4, col5, col6, col7, col8, col9, col10 = st.columns(10)
         
         col1.write(f"<p style='text-align: left;'>{dataHandler.title_case(item['nama_provinsi'])}</p>", unsafe_allow_html=True)
@@ -243,11 +240,11 @@ if page == "Statistik Kemiskinan":
                     st.session_state.active_form_id = None
                     st.rerun()
 
-    # Pagination Controls
+    # Kontrol paginations
     col1, col2, col3 = st.columns([3, 1, 3])
     with col2:
 
-        col_left, col_right = st.columns([1, 1])  # Kolom kanan lebih lebar
+        col_left, col_right = st.columns([1, 1])
         with col_left:
             prev_button = st.button(
                 "Previous", key="prev") if st.session_state.page_num > 0 else None
@@ -280,10 +277,6 @@ elif page == "Bantuan Sosial Pangan":
     if "selected_provinsi" not in st.session_state:
         st.session_state.selected_provinsi = None
 
-    # col1, col2 = st.columns(2)
-
-    # with col1:
-    #     # Pilihan Provinsi (di luar form untuk mendukung interaktivitas)
     provinsi_options = ["Pilih Provinsi"] + sorted(list(set(item["nama_provinsi"] for item in data)))
     provinsi = st.selectbox(
         "Pilih Provinsi",
@@ -322,7 +315,7 @@ elif page == "Bantuan Sosial Pangan":
                 st.write("Harap pilih provinsi terlebih dahulu.")
 
     # Limit Data
-    page_size = 15  # Show 15 records per page
+    page_size = 15 
     if "page_num" not in st.session_state:
         st.session_state.page_num = 0
 
@@ -360,7 +353,6 @@ elif page == "Bantuan Sosial Pangan":
     # Data Kolom
     for item in paginated_data:
 
-        # for kota in item['data_kota']:
         col1, col2, col3, col4, col5, col6, col7, col8 = st.columns(
             8)
         
@@ -443,7 +435,7 @@ elif page == "Bantuan Sosial Pangan":
     col1, col2, col3 = st.columns([3, 1, 3])
     with col2:
 
-        col_left, col_right = st.columns([1, 1])  # Kolom kanan lebih lebar
+        col_left, col_right = st.columns([1, 1])
         with col_left:
             prev_button = st.button(
                 "Previous", key="prev") if st.session_state.page_num > 0 else None
@@ -598,7 +590,7 @@ elif page == "Tingkat Pengangguran":
     col1, col2, col3 = st.columns([3, 1, 3])
     with col2:
 
-        col_left, col_right = st.columns([1, 1])  # Kolom kanan lebih lebar
+        col_left, col_right = st.columns([1, 1])  
         with col_left:
             prev_button = st.button(
                 "Previous", key="prev") if st.session_state.page_num > 0 else None
