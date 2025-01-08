@@ -207,28 +207,35 @@ with col10:
 if len(bansos_df) == 0:
     st.warning(f"Tidak ada data Bansos.")
 else:
-
-    st.markdown('<p class="custom-font">Anggaran Bantuan Sosial</p>', unsafe_allow_html=True)
     if provinsi_selected == "Semua":
+        st.markdown('<p class="custom-font">Anggaran Bantuan Sosial</p>', unsafe_allow_html=True)
+        
         visualize.dual_bar_chart(bansos_df, "nama_provinsi", "rencana_anggaran", "realisasi_anggaran", "Jumlah Anggaran")
         visualize.dual_line_chart(bansos_df, "tahun", "rencana_anggaran", "realisasi_anggaran", "Jumlah Anggaran")
     else:
-        col1, col2 = st.columns(2)
+        st.markdown(f'<p class="custom-font">Anggaran Bantuan Sosial {dataHandler.title_case(provinsi_selected)}</p>', unsafe_allow_html=True)
+        
+        col1, col2 = st.columns([1, 2])
 
-        with col1:
-            visualize.dual_bar_chart(bansos_df, "nama_provinsi", "rencana_anggaran", "realisasi_anggaran", "Jumlah Anggaran")
+        with col1:    
+            # visualize.dual_bar_chart(bansos_df, "nama_provinsi", "rencana_anggaran", "realisasi_anggaran", "Jumlah Anggaran")
+            visualize.pie_chart(bansos_df, "nama_provinsi", ["rencana_anggaran", "realisasi_anggaran"], "Nama Provinsi", "Jumlah Anggaran", "bansos")
         with col2:
             visualize.dual_line_chart(bansos_df, "tahun", "rencana_anggaran", "realisasi_anggaran", "Jumlah Anggaran")
 
-    st.markdown('<p class="custom-font">Jumlah Penerima Bantuan Sosial</p>', unsafe_allow_html=True)
     if provinsi_selected == "Semua":
+        st.markdown('<p class="custom-font">Jumlah Penerima Bantuan Sosial</p>', unsafe_allow_html=True)
+        
         visualize.dual_bar_chart(bansos_df, "nama_provinsi", "rencana_keluarga_penerima", "realisasi_keluarga_penerima", "Jumlah Penerima")
         visualize.dual_line_chart(bansos_df, "tahun", "rencana_keluarga_penerima", "realisasi_keluarga_penerima", "Jumlah Penerima")
     else:
-        col1, col2 = st.columns(2)
+        st.markdown(f'<p class="custom-font">Jumlah Penerima Bantuan Sosial {dataHandler.title_case(provinsi_selected)}</p>', unsafe_allow_html=True)
+
+        col1, col2 = st.columns([1, 2])
 
         with col1:
-            visualize.dual_bar_chart(bansos_df, "nama_provinsi", "rencana_keluarga_penerima", "realisasi_keluarga_penerima", "Jumlah Penerima")
+            # visualize.dual_bar_chart(bansos_df, "nama_provinsi", "rencana_keluarga_penerima", "realisasi_keluarga_penerima", "Jumlah Penerima")
+            visualize.pie_chart(bansos_df, "nama_provinsi", ["rencana_keluarga_penerima", "realisasi_keluarga_penerima"], "Nama Provinsi", "Jumlah Penerima", "bansos")
         with col2:
             visualize.dual_line_chart(bansos_df, "tahun", "rencana_keluarga_penerima", "realisasi_keluarga_penerima", "Jumlah Penerima")
 
@@ -347,7 +354,11 @@ else:
 if len(pengangguran_df) == 0:
     st.warning(f"Tidak ada data Bansos.")
 else:
-    col5, col6 = st.columns(2)
+    if provinsi_selected == "Semua":
+        col5, col6 = st.columns(2)
+    else:
+        col5, col6 = st.columns([1, 2])
+
     with col5:
         if provinsi_selected == "Semua":
             st.markdown('<p class="custom-font">Rata-Rata Tingkat Pengangguran</p>', unsafe_allow_html=True)
@@ -356,7 +367,8 @@ else:
         else:
             st.markdown(f'<p class="custom-font">Rata-Rata Tingkat Pengangguran {dataHandler.title_case(provinsi_selected)}</p>', unsafe_allow_html=True)
 
-            visualize.bar_chart(pengangguran_df, "nama_provinsi", "tingkat_pengangguran", "Provinsi", "Tingkat Pengangguran", "Se-Indonesia", "tingpeng", pengangguran_df_full)
+            # visualize.bar_chart(pengangguran_df, "nama_provinsi", "tingkat_pengangguran", "Provinsi", "Tingkat Pengangguran", "Se-Indonesia", "tingpeng", pengangguran_df_full)
+            visualize.pie_chart(pengangguran_df, "nama_provinsi", "tingkat_pengangguran", "Nama Provinsi", "Tingkat Pengangguran", "tingpeng", pengangguran_df_full, provinsi_selected)
     with col6:
         if provinsi_selected == "Semua":
             st.markdown('<p class="custom-font">Trend Tingkat Pengangguran</p>', unsafe_allow_html=True)
@@ -370,6 +382,6 @@ else:
                 
                 visualize.line_chart(pengangguran_df, "tahun", "tingkat_pengangguran", "Tahun", "Tingkat Pengangguran (%)", "nama_provinsi", provinsi_selected, "filtered_prov", pengangguran_df_full)
 
-    st.markdown('<p class="custom-font">Trend Tingkat Pengangguran Seluruh Indonesia</p>', unsafe_allow_html=True)
+    st.markdown('<p class="custom-font">Tingkat Pengangguran Seluruh Indonesia</p>', unsafe_allow_html=True)
     
     visualize.choropleth_chart(pengangguran_df_full, "nama_provinsi", "tingkat_pengangguran", "Nama Provinsi", "Tingkat Pengangguran")

@@ -187,3 +187,57 @@ def choropleth_chart(data, x_value, y_value, x_title, y_title):
 
     # Menampilkan di Streamlit
     st.plotly_chart(fig, use_container_width=True)
+
+def pie_chart(data, x_value, y_value, x_title, y_title, jenis, data_full="_", selected_value="_"):
+    if jenis == "tingpeng":
+        pie_chart = data.groupby(x_value)[y_value].mean().reset_index()
+    
+        # Hitung rata-rata tingkat pengangguran per tahun
+        average_pengangguran = data_full.groupby('tahun')['tingkat_pengangguran'].mean().reset_index()
+        
+        # Tambahkan kolom nama_provinsi dengan nilai "Se-Indonesia"
+        average_pengangguran['nama_provinsi'] = 'Se-Indonesia'
+
+        # Hitung rata-rata seluruh Indonesia
+        average_pengangguran = average_pengangguran.groupby('nama_provinsi')['tingkat_pengangguran'].mean().reset_index()
+        
+        # Gabungkan dengan data asli
+        pie_chart = pd.concat([pie_chart, average_pengangguran], ignore_index=True)
+
+        # max_value = pie_chart[y_value].max()
+        # pie_chart["highlight"] = pie_chart[y_value] == max_value
+        
+        chart = alt.Chart(pie_chart).mark_arc().encode(
+            theta=alt.Theta(field=y_value, type='quantitative'),
+            color=alt.Color(field=x_value, type='nominal',   
+                    scale=alt.Scale(domain=["Se-Indonesia", selected_value], 
+                                    range=['#2b64c7', '#8cc7fe']),  
+                    legend=alt.Legend(title=x_title, orient="bottom"))
+        ).properties(width=800, height=400)
+    
+    if jenis == "bansos":
+        aggregated_data = data.groupby([x_value], as_index=False).agg(
+            {y_value[0]: 'sum', y_value[1]: 'sum'}  # Bisa diganti 'mean' jika ingin rata-rata
+        )
+
+        chart_data = aggregated_data.melt(
+            id_vars=[x_value],
+            value_vars=[y_value[0], y_value[1]],
+            var_name="Kategori",
+            value_name=y_title,
+            )
+        
+        # Membuat bar chart dengan Altair    
+        chart = alt.Chart(chart_data).mark_arc().encode(    
+            theta=alt.Theta(field=y_title, type='quantitative'),   
+            # color=alt.Color('Kategori:N', legend=alt.Legend(title='Kategori', orient='bottom'))
+            color=alt.Color(field='Kategori', type='nominal',   
+                    scale=alt.Scale(domain=[y_value[0], y_value[1]], 
+                                    range=['#2b64c7', '#8cc7fe']),  
+                    legend=alt.Legend(title=x_title, orient="bottom"))
+        ).properties(    
+            width=150,  # Lebar setiap bar    
+            height=400  # Tinggi chart    
+        )
+
+    st.altair_chart(chart, use_container_width=True)
