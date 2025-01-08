@@ -76,9 +76,13 @@ else:
                 # Jika tidak ada data kota untuk provinsi yang dipilih
                 st.warning(f"Tidak ada data kota untuk provinsi { dataHandler.title_case(provinsi_selected) }.")
             else:
-                st.markdown(f'<p class="custom-font">Persentase Penduduk Miskin {dataHandler.title_case(provinsi_selected)}</p>', unsafe_allow_html=True)
-                
-                visualize.bar_chart(kemiskinan_df, "nama_kota", "persentase_penduduk_miskin", "Kabupaten / Kota", "Persentase Penduduk Miskin", kota_selected, filter_kota=True)
+                if kota_selected == "Semua":
+                    st.markdown(f'<p class="custom-font">Persentase Penduduk Miskin {dataHandler.title_case(provinsi_selected)}</p>', unsafe_allow_html=True)
+                    visualize.bar_chart(kemiskinan_df, "nama_kota", "persentase_penduduk_miskin", "Kabupaten / Kota", "Persentase Penduduk Miskin", kota_selected)
+                else:
+                    st.markdown(f'<p class="custom-font">Persentase Penduduk Miskin {dataHandler.title_case(provinsi_selected)}</p>', unsafe_allow_html=True)
+                    visualize.bar_chart(kemiskinan_df, "nama_kota", "persentase_penduduk_miskin", "Kabupaten / Kota", "Persentase Penduduk Miskin", kota_selected, filter_kota=True)
+
 
     with col2:
         if provinsi_selected == "Semua":
@@ -138,6 +142,6 @@ else:
                 
                 visualize.line_chart(pengangguran_df, "tahun", "tingkat_pengangguran", "Tahun", "Tingkat Pengangguran (%)", "nama_provinsi", provinsi_selected, "filtered_prov", pengangguran_df_full)
 
-    st.markdown(f'<p class="custom-font">Trend Tingkat Pengangguran {dataHandler.title_case(provinsi_selected)}</p>', unsafe_allow_html=True)
+    st.markdown('<p class="custom-font">Trend Tingkat Pengangguran Seluruh Indonesia</p>', unsafe_allow_html=True)
     
-    visualize.choropleth_chart(pengangguran_df_full, "nama_provinsi", "tingkat_pengangguran")
+    visualize.choropleth_chart(pengangguran_df_full, "nama_provinsi", "tingkat_pengangguran", "Nama Provinsi", "Tingkat Pengangguran")

@@ -34,8 +34,8 @@ def bar_chart(data, x_value, y_value, x_title, y_title, selected_data, jenis="bu
         y=alt.Y(f"{y_value}:Q", title=y_title),
         color=alt.condition(
             alt.datum.highlight,
-            alt.value("#3d7bba"),
-            alt.value("#bed5ea"),
+            alt.value("#2b64c7"),
+            alt.value("#8cc7fe"),
         )
     ).properties(width=800, height=400)
     
@@ -62,6 +62,7 @@ def line_chart(data, x_value, y_value, x_title, y_title, filter_value, selected_
             average_all[filter_value] = 'Se-Indonesia'
         else:
             average_all[filter_value] = dataHandler.title_case(prov)
+        average_all['higlight'] = True
         
         # Gabungkan dengan data asli
         line_chart = pd.concat([line_chart, average_all], ignore_index=True)
@@ -76,7 +77,7 @@ def line_chart(data, x_value, y_value, x_title, y_title, filter_value, selected_
             height=400,
         )
     else:
-        line_chart = alt.Chart(line_chart).mark_line().encode(
+        line_chart = alt.Chart(line_chart).mark_line(color="#8cc7fe").encode(
             x=alt.X(f"{x_value}:O", title=x_title),
             y=alt.Y(f"{y_value}:Q", title=y_title),
             tooltip=[x_value, y_value]
@@ -139,7 +140,7 @@ def dual_line_chart(data, x_value, value1, value2, value_name):
 
     st.altair_chart(dual_line_chart, use_container_width=True)
 
-def choropleth_chart(data, x_value, y_value):
+def choropleth_chart(data, x_value, y_value, x_title, y_title):
     # Aggregating data berdsarakan provinsi
     data_aggregated = data.groupby(x_value)[y_value].mean().reset_index()
 
@@ -167,22 +168,22 @@ def choropleth_chart(data, x_value, y_value):
         color=y_value,
         hover_name=x_value,
         color_continuous_scale=px.colors.sequential.Blues,
-        title='Tingkat Pengangguran di Indonesia',
-        width=700,
-        height=700
+        width=800,
+        height=800,
+        labels={x_value: x_title, y_value: y_title},
     )
 
     # Menambahkan layout untuk peta
     fig.update_geos(
         fitbounds="locations", 
         visible=False, 
-        bgcolor='#ffffff',  # Mengatur latar belakang peta menjadi transparan
-        # landcolor='blue',  # Mengatur warna daratan menjadi transparan
-        # bgcolor='rgba(0,0,0,0)',
+        bgcolor='#ffffff',
     )
 
-    # Mengatur posisi judul
-    fig.update_layout(title_y=0.87)
+    # Mengatur margin layout untuk menggeser chart lebih ke atas
+    fig.update_layout(
+        margin=dict(l=0, r=0, t=0, b=350),  # Atur margin (left, right, top, bottom)
+    )
 
     # Menampilkan di Streamlit
     st.plotly_chart(fig, use_container_width=True)
