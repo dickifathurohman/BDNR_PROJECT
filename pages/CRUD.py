@@ -178,7 +178,7 @@ if page == "Statistik Kemiskinan":
         update_btn = col9.button(
             "Update", key=f"update_{item['_id']}_{item['nama_kota']}")
         delete_btn = col10.button(
-            "Delete", icon="❌", key=f"delete_{item['_id']}_{item['nama_kota']}")
+            "Delete", key=f"delete_{item['_id']}_{item['nama_kota']}")
 
         if delete_btn:
             data_id = item['_id']
@@ -372,7 +372,7 @@ elif page == "Bantuan Sosial Pangan":
         update_btn = col7.button(
             "Update", key=f"update_{item['_id']}")
         delete_btn = col8.button(
-            "Delete", icon="❌", key=f"delete_{item['_id']}")
+            "Delete", key=f"delete_{item['_id']}")
 
         if delete_btn:
             data_id = item['_id']
@@ -543,7 +543,7 @@ elif page == "Tingkat Pengangguran":
         update_btn = col4.button(
             "Update", key=f"update_{item['_id']}")
         delete_btn = col5.button(
-            "Delete", icon="❌", key=f"delete_{item['_id']}")
+            "Delete", key=f"delete_{item['_id']}")
         
         if delete_btn:
             data_id = item['_id']
